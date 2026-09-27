@@ -26,7 +26,7 @@ const items = await Promise.all(
     <ul class="gallery__grid" role="list" data-gallery>
       {
         items.map((item, i) => (
-          <li class:list={['gallery__item', `gallery__item--${item.shape}`, 'reveal']} style={`grid-area:${item.area};--reveal-delay:${(i % 3) * 0.08}s`}>
+          <li class:list={['gallery__item', 'reveal']} style={`grid-area:${item.area};--reveal-delay:${(i % 3) * 0.08}s`}>
             <button
               type="button"
               class="gallery__btn"
@@ -111,7 +111,8 @@ const items = await Promise.all(
     grid-template-areas:
       'a b c'
       'a d c'
-      'e d f';
+      'e d f'
+      'g h f';
     gap: clamp(0.75rem, 1.5vw, 1.25rem);
     margin: 0;
   }
@@ -216,7 +217,8 @@ const items = await Promise.all(
         'a c'
         'd c'
         'd e'
-        'f f';
+        'f g'
+        'f h';
     }
   }
 

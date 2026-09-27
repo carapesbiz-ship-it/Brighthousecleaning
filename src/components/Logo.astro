@@ -1,12 +1,11 @@
 ---
 /**
- * Bright House logo.
- *
- * Uses the official artwork when it is present in /public/brand:
+ * Official Bright House logo, served from /public/brand:
  *   bright-house-logo-blue.svg   (header, light backgrounds)
- *   bright-house-logo-white.svg  (footer, dark backgrounds)
- * The file is displayed as-is: never recoloured, redrawn, or stretched.
- * Until the files are added, a typographic name treatment is shown instead.
+ *   bright-house-logo-white.svg  (footer, dark blue backgrounds)
+ * The artwork is displayed as-is — never recoloured, redrawn, or stretched.
+ * Width is derived from the SVG viewBox so the proportions are always exact.
+ * The identity manual's minimum web size is 106 × 47 px, so keep height ≥ 47.
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -16,84 +15,35 @@ interface Props {
   variant?: 'blue' | 'white';
   height?: number;
   class?: string;
+  /** Load eagerly (above the fold) or lazily */
+  loading?: 'eager' | 'lazy';
 }
-const { variant = 'blue', height = 56, class: className } = Astro.props;
+const { variant = 'blue', height = 52, class: className, loading = 'lazy' } = Astro.props;
 
 const file = `bright-house-logo-${variant}.svg`;
-const filePath = path.join(process.cwd(), 'public', 'brand', file);
-let official: { src: string; width: number; height: number } | null = null;
-
-if (fs.existsSync(filePath)) {
-  const svg = fs.readFileSync(filePath, 'utf8');
-  const vb = svg.match(/viewBox=["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
-  const ratio = vb ? Number(vb[1]) / Number(vb[2]) : 2.2;
-  official = { src: `/brand/${file}`, width: Math.round(height * ratio), height };
-}
+const svg = fs.readFileSync(path.join(process.cwd(), 'public', 'brand', file), 'utf8');
+const vb = svg.match(/viewBox=["']\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)/i);
+if (!vb) throw new Error(`Logo ${file} has no viewBox`);
+const ratio = Number(vb[1]) / Number(vb[2]);
+const width = Math.round(height * ratio);
 ---
 
-{
-  official ? (
-    <img
-      class:list={['logo-img', className]}
-      src={official.src}
-      width={official.width}
-      height={official.height}
-      alt={site.name}
-      decoding="async"
-    />
-  ) : (
-    <span class:list={['wordmark', `wordmark--${variant}`, className]} style={`--wm-h:${height}px`}>
-      <span class="wordmark__name">
-        Bright House
-        <svg class="wordmark__spark" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 2c.6 5.3 2.7 7.4 8 8-5.3.6-7.4 2.7-8 8-.6-5.3-2.7-7.4-8-8 5.3-.6 7.4-2.7 8-8Z" />
-        </svg>
-      </span>
-      <span class="wordmark__sub">Cleaning Services</span>
-    </span>
-  )
-}
+<img
+  class:list={['logo', className]}
+  src={`/brand/${file}`}
+  width={width}
+  height={height}
+  style={`--logo-h:${height}px`}
+  alt={site.name}
+  loading={loading}
+  decoding="async"
+/>
 
 <style>
-  .logo-img {
-    height: var(--logo-h, auto);
+  .logo {
+    display: block;
+    height: var(--logo-h);
     width: auto;
-  }
-  .wordmark {
-    display: inline-flex;
-    flex-direction: column;
-    justify-content: center;
-    height: var(--wm-h);
-    line-height: 1;
-    color: var(--blue);
-    white-space: nowrap;
-  }
-  .wordmark--white {
-    color: var(--white);
-  }
-  .wordmark__name {
-    position: relative;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: calc(var(--wm-h) * 0.5);
-    letter-spacing: -0.005em;
-    padding-right: 0.55em;
-  }
-  .wordmark__spark {
-    position: absolute;
-    top: -0.18em;
-    right: 0;
-    width: 0.5em;
-    height: 0.5em;
-    fill: var(--cyan);
-  }
-  .wordmark__sub {
-    margin-top: 0.75em;
-    font-family: var(--font-accent);
-    font-weight: 700;
-    font-size: calc(var(--wm-h) * 0.155);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    opacity: 0.85;
+    max-width: none;
   }
 </style>

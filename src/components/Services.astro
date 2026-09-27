@@ -5,10 +5,15 @@ import { services, pricingDisclaimer, type Service } from '../data/site';
 import { photos } from '../data/photos';
 
 const byId = (id: Service['id']) => services.find((s) => s.id === id)!;
-const regular = byId('regular');
-const deep = byId('deep');
-const move = byId('move');
-const small = [byId('airbnb'), byId('commercial')];
+// Display (and reading) order of the service cards.
+const ordered = [byId('regular'), byId('deep'), byId('move'), byId('commercial'), byId('airbnb')];
+
+// Card crops, tuned per photograph (16:9 frames).
+const cropFor: Partial<Record<Service['id'], string>> = {
+  regular: '38% 42%',
+  deep: '50% 32%',
+  commercial: '50% 88%',
+};
 ---
 
 <section class="section services" id="services" aria-labelledby="services-title">
@@ -26,8 +31,76 @@ const small = [byId('airbnb'), byId('commercial')];
 
     <div class="services__grid">
       {
-        [regular, deep].map((s, i) => (
-          <article class="svc svc--photo reveal" style={`--reveal-delay:${i * 0.1}s`} aria-labelledby={`svc-${s.id}`}>
+        ordered.map((s, i) => {
+          if (s.id === 'move') return (
+            <article class="svc svc--feature reveal" aria-labelledby={`svc-${s.id}`}>
+              {
+                s.photo && (
+                  <div class="svc__media">
+                    <Picture
+                      src={photos[s.photo].src}
+                      alt=""
+                      formats={['avif']}
+                      fallbackFormat="webp"
+                      widths={[400, 640, 900]}
+                      sizes="(max-width: 820px) 92vw, 440px"
+                      class="cover"
+                      style="object-position:50% 62%"
+                      loading="lazy"
+                      quality={75}
+                    />
+                  </div>
+                )
+              }
+              <div class="svc__body">
+                <div class="svc__top">
+                  <span class="svc__icon">
+                    <Icon name={s.icon} size={24} />
+                  </span>
+                  <p class="svc__price">{s.price}</p>
+                </div>
+                <h3 id={`svc-${s.id}`}>{s.name}</h3>
+                <p class="svc__desc">{s.description}</p>
+                <div class="svc__lists">
+                  <div>
+                    <p class="svc__label">{s.listLabel}</p>
+                    <ul class="checklist" role="list">
+                      {
+                        s.inclusions.map((item) => (
+                          <li>
+                            <Icon name="check" size={16} />
+                            {item}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                  <div class="svc__extras">
+                    <p class="svc__label">{s.extrasLabel}</p>
+                    <ul class="checklist checklist--plus" role="list">
+                      {
+                        s.extras?.map((item) => (
+                          <li>
+                            <Icon name="plus" size={16} />
+                            {item}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                    <p class="svc__note svc__note--box">
+                      <Icon name="sparkle" size={18} />
+                      {s.note}
+                    </p>
+                  </div>
+                </div>
+                <a class="btn btn--primary btn--sm svc__cta" href={`/?service=${s.id}#contact`} data-service={s.id}>
+                  Request This Service<span class="visually-hidden">: {s.name}</span>
+                </a>
+              </div>
+            </article>
+          );
+          if (s.photo) return (
+          <article class="svc svc--photo reveal" style={`--reveal-delay:${(i % 2) * 0.1}s`} aria-labelledby={`svc-${s.id}`}>
             {s.photo && (
               <div class="svc__media">
                 <Picture
@@ -38,7 +111,7 @@ const small = [byId('airbnb'), byId('commercial')];
                   widths={[400, 640, 900]}
                   sizes="(max-width: 820px) 92vw, 560px"
                   class="cover"
-                  style={`object-position:${s.id === 'regular' ? '50% 78%' : '50% 60%'}`}
+                  style={`object-position:${cropFor[s.id] ?? '50% 50%'}`}
                   loading="lazy"
                   quality={75}
                 />
@@ -68,78 +141,12 @@ const small = [byId('airbnb'), byId('commercial')];
               </a>
             </div>
           </article>
-        ))
-      }
-
-      <article class="svc svc--feature reveal" aria-labelledby={`svc-${move.id}`}>
-        {
-          move.photo && (
-            <div class="svc__media">
-              <Picture
-                src={photos[move.photo].src}
-                alt=""
-                formats={['avif']}
-                fallbackFormat="webp"
-                widths={[400, 640, 900]}
-                sizes="(max-width: 820px) 92vw, 440px"
-                class="cover"
-                style="object-position:50% 60%"
-                loading="lazy"
-                quality={75}
-              />
-            </div>
-          )
-        }
-        <div class="svc__body">
-          <div class="svc__top">
-            <span class="svc__icon">
-              <Icon name={move.icon} size={24} />
-            </span>
-            <p class="svc__price">{move.price}</p>
-          </div>
-          <h3 id={`svc-${move.id}`}>{move.name}</h3>
-          <p class="svc__desc">{move.description}</p>
-          <div class="svc__lists">
-            <div>
-              <p class="svc__label">{move.listLabel}</p>
-              <ul class="checklist" role="list">
-                {
-                  move.inclusions.map((item) => (
-                    <li>
-                      <Icon name="check" size={16} />
-                      {item}
-                    </li>
-                  ))
-                }
-              </ul>
-            </div>
-            <div class="svc__extras">
-              <p class="svc__label">{move.extrasLabel}</p>
-              <ul class="checklist checklist--plus" role="list">
-                {
-                  move.extras?.map((item) => (
-                    <li>
-                      <Icon name="plus" size={16} />
-                      {item}
-                    </li>
-                  ))
-                }
-              </ul>
-              <p class="svc__note svc__note--box">
-                <Icon name="sparkle" size={18} />
-                {move.note}
-              </p>
-            </div>
-          </div>
-          <a class="btn btn--primary btn--sm svc__cta" href={`/?service=${move.id}#contact`} data-service={move.id}>
-            Request This Service<span class="visually-hidden">: {move.name}</span>
-          </a>
-        </div>
-      </article>
-
-      {
-        small.map((s, i) => (
-          <article class="svc svc--soft reveal" style={`--reveal-delay:${i * 0.1}s`} aria-labelledby={`svc-${s.id}`}>
+          );
+          return (
+          <article class="svc svc--soft reveal" style={`--reveal-delay:${(i % 2) * 0.1}s`} aria-labelledby={`svc-${s.id}`}>
+            <svg class="svc__mark" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2c.6 5.3 2.7 7.4 8 8-5.3.6-7.4 2.7-8 8-.6-5.3-2.7-7.4-8-8 5.3-.6 7.4-2.7 8-8Z" />
+            </svg>
             <div class="svc__body">
               <div class="svc__top">
                 <span class="svc__icon">
@@ -163,7 +170,8 @@ const small = [byId('airbnb'), byId('commercial')];
               </a>
             </div>
           </article>
-        ))
+          );
+        })
       }
     </div>
 
@@ -372,6 +380,22 @@ const small = [byId('airbnb'), byId('commercial')];
     background: linear-gradient(170deg, var(--cyan-soft), var(--offwhite));
     border-color: rgb(63 198 240 / 0.18);
     box-shadow: none;
+  }
+  .svc__mark {
+    position: absolute;
+    right: -2.5rem;
+    bottom: -2.5rem;
+    width: 12rem;
+    fill: var(--cyan);
+    opacity: 0.12;
+    pointer-events: none;
+  }
+  .svc--soft .svc__body {
+    position: relative;
+    justify-content: center;
+  }
+  .svc--soft .svc__cta {
+    margin-top: 0;
   }
   .svc--soft .svc__price {
     background: var(--white);

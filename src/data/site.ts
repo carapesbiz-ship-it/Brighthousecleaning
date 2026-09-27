@@ -3,6 +3,7 @@
  * Update details here and they flow through the whole website
  * (header, footer, contact section, structured data, FAQ, etc.).
  */
+import type { PhotoKey } from './photos';
 
 export const site = {
   name: 'Bright House Cleaning Services',
@@ -85,7 +86,7 @@ export interface Service {
   extras?: string[];
   note?: string;
   /** Key into the photo map in src/data/photos.ts */
-  photo?: 'stairs' | 'microwave' | 'shower' | 'kitchen';
+  photo?: PhotoKey;
   icon: 'home' | 'sparkle' | 'box' | 'key' | 'building';
 }
 
@@ -99,7 +100,7 @@ export const services: Service[] = [
     listLabel: 'Includes',
     inclusions: ['Kitchen surfaces and sinks', 'Bathrooms', 'Dusting', 'Vacuuming', 'Mopping', 'Cleaning supplies included'],
     note: 'Available weekly, biweekly, or monthly.',
-    photo: 'stairs',
+    photo: 'kitchenIsland',
     icon: 'home',
   },
   {
@@ -120,7 +121,7 @@ export const services: Service[] = [
       'Light fixtures',
       'Vacuuming and mopping',
     ],
-    photo: 'microwave',
+    photo: 'showerTub',
     icon: 'sparkle',
   },
   {
@@ -147,7 +148,7 @@ export const services: Service[] = [
       'Additional detailed baseboard work',
     ],
     note: 'Your final checklist and price are confirmed in your customized quote.',
-    photo: 'shower',
+    photo: 'emptyRoom',
     icon: 'box',
   },
   {
@@ -176,6 +177,7 @@ export const services: Service[] = [
       'Tailored to the size and needs of your space',
       'Supplies brought to every visit',
     ],
+    photo: 'office',
     icon: 'building',
   },
 ];

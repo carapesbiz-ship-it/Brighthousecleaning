@@ -6,7 +6,7 @@ import { site } from '../data/site';
 import { photos, cindyPortrait } from '../data/photos';
 
 // When a portrait of Cindy is added in src/data/photos.ts it replaces the brand image.
-const image = cindyPortrait ?? photos.microwave;
+const image = cindyPortrait ?? { ...photos.soakingTub, position: "44% 60%" };
 ---
 
 <section class="section about" id="about" aria-labelledby="about-title">
@@ -27,7 +27,7 @@ const image = cindyPortrait ?? photos.microwave;
         />
       </div>
       <div class="about__brandcard on-dark">
-        <Logo variant="white" height={50} />
+        <Logo variant="white" height={52} />
         <p>“What matters most is how people feel after we finish.”</p>
       </div>
       <svg class="about__spark" viewBox="0 0 24 24" aria-hidden="true">
