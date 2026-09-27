@@ -19,6 +19,7 @@ import officeLobby from '../assets/photos/11-office-lobby.jpg';
 import baseboard from '../assets/photos/12-baseboard.jpg';
 import openOffice from '../assets/photos/13-open-office.jpg';
 import condoLiving from '../assets/photos/14-condo-living.jpg';
+import condoVacuuming from '../assets/photos/15-condo-vacuuming.jpg';
 import regularService from '../assets/services/regular-cleaning.png';
 import deepService from '../assets/services/deep-cleaning.png';
 import moveService from '../assets/services/move-in-move-out.png';
@@ -78,7 +79,7 @@ export const photos = {
   officeLobby: {
     src: officeLobby,
     alt: 'A tidy office reception corner with grey armchairs, a tall plant and clean wood-look floors',
-    position: '50% 50%',
+    position: '50% 55%',
   },
   baseboard: {
     src: baseboard,
@@ -94,6 +95,11 @@ export const photos = {
     src: condoLiving,
     alt: 'A bright condo living and dining area with a leather sofa, a round wood table and city views',
     position: '50% 60%',
+  },
+  condoVacuuming: {
+    src: condoVacuuming,
+    alt: 'A Bright House cleaner vacuuming a condo living room with a view of the water',
+    position: '45% 50%',
   },
 } satisfies Record<string, Photo>;
 
@@ -123,6 +129,7 @@ export const gallery: { key: PhotoKey; caption: string }[] = [
   { key: 'patio', caption: 'Finishing touches, inside and out' },
   { key: 'officeLobby', caption: 'Reception areas, ready for visitors' },
   { key: 'condoLiving', caption: 'Condo living, refreshed' },
+  { key: 'condoVacuuming', caption: 'Care in every room' },
   { key: 'openOffice', caption: 'Open offices, floor to desk' },
   { key: 'baseboard', caption: 'Baseboards and kickboards' },
 ];
