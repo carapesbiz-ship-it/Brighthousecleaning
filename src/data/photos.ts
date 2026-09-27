@@ -15,6 +15,11 @@ import stairs from '../assets/photos/07-1000201882.jpg';
 import kitchenIsland from '../assets/photos/crops/08-kitchen-island.jpg';
 import office from '../assets/photos/09-1000201880.jpg';
 import emptyRoom from '../assets/photos/10-1000201879.jpg';
+import regularService from '../assets/services/regular-cleaning.png';
+import deepService from '../assets/services/deep-cleaning.png';
+import moveService from '../assets/services/move-in-move-out.png';
+import commercialService from '../assets/services/commercial-cleaning.png';
+import airbnbService from '../assets/services/airbnb-turnover.png';
 
 export interface Photo {
   src: ImageMetadata;
@@ -88,3 +93,18 @@ export const gallery: { key: PhotoKey; caption: string }[] = [
   { key: 'stairs', caption: 'Floors and stairways' },
   { key: 'patio', caption: 'Finishing touches, inside and out' },
 ];
+
+/**
+ * Service-card photography (one image per service). These are illustrative
+ * brand images, not client work: never add them to the "Real Work" gallery or
+ * use them as Cindy's portrait. `position` is the object-position used for the
+ * 16:9 card crop, tuned per image to keep the cleaner and the task in frame.
+ */
+
+export const servicePhotos: Record<'regular' | 'deep' | 'move' | 'commercial' | 'airbnb', Photo> = {
+  regular: { src: regularService, alt: 'Bright House cleaner caring for a bright living room', position: '50% 28%' },
+  deep: { src: deepService, alt: 'Bright House cleaner detailing a glass shower', position: '50% 18%' },
+  move: { src: moveService, alt: 'Bright House cleaner vacuuming an empty condo', position: '50% 30%' },
+  commercial: { src: commercialService, alt: 'Bright House cleaner sanitizing an office meeting room', position: '50% 32%' },
+  airbnb: { src: airbnbService, alt: 'Bright House cleaner preparing a guest bedroom', position: '50% 22%' },
+};
