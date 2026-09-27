@@ -1,0 +1,97 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+---
+
+<section class="promise on-dark" aria-labelledby="promise-title">
+  <div class="promise__art" aria-hidden="true">
+    <svg viewBox="0 0 24 24"><path d="M12 2c.6 5.3 2.7 7.4 8 8-5.3.6-7.4 2.7-8 8-.6-5.3-2.7-7.4-8-8 5.3-.6 7.4-2.7 8-8Z"></path></svg>
+  </div>
+  <div class="container promise__inner">
+    <div class="promise__stars" aria-hidden="true">
+      {Array.from({ length: 5 }).map(() => <Icon name="star" size={22} />)}
+    </div>
+    <p class="eyebrow promise__eyebrow">Our 5-Star Promise</p>
+    <h2 id="promise-title">Your satisfaction matters.</h2>
+    <p class="promise__copy">
+      If for any reason you’re not completely satisfied with your cleaning, contact us within 24 hours and we’ll make it
+      right — no hassle and no extra charge.
+    </p>
+    <a class="btn btn--light" href="#contact" data-quote-link>
+      Contact Bright House
+      <Icon name="arrow" />
+    </a>
+    <div class="promise__logo">
+      <Logo variant="white" height={46} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .promise {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(4.5rem, 3rem + 6vw, 8rem);
+    background:
+      radial-gradient(60% 80% at 85% 10%, rgb(63 198 240 / 0.22), transparent 60%),
+      radial-gradient(50% 70% at 10% 100%, rgb(63 198 240 / 0.12), transparent 60%),
+      var(--blue);
+    color: var(--white);
+    text-align: center;
+  }
+  .promise__art {
+    position: absolute;
+    right: -6rem;
+    top: 50%;
+    width: clamp(260px, 36vw, 520px);
+    translate: 0 -50%;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .promise__art svg {
+    fill: var(--white);
+    width: 100%;
+    height: auto;
+  }
+  .promise__inner {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    max-width: 52rem;
+  }
+  .promise__stars {
+    display: flex;
+    gap: 0.35rem;
+    color: var(--cyan);
+    margin-bottom: 1.5rem;
+  }
+  .promise__stars :global(svg) {
+    fill: currentColor;
+  }
+  .promise__eyebrow {
+    color: var(--cyan-on-blue);
+  }
+  .promise__eyebrow::before {
+    background: var(--white);
+  }
+  .promise h2 {
+    color: var(--white);
+    font-size: var(--step-4);
+  }
+  .promise__copy {
+    margin: 1.4rem 0 2.25rem;
+    font-size: var(--step-1);
+    line-height: 1.6;
+    color: rgb(255 255 255 / 0.9);
+    max-width: 40rem;
+  }
+  .promise__logo {
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgb(255 255 255 / 0.18);
+    width: min(100%, 22rem);
+    display: flex;
+    justify-content: center;
+    opacity: 0.95;
+  }
+</style>

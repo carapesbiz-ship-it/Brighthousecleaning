@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimplePage from '../components/SimplePage.astro';
+import Icon from '../components/Icon.astro';
+import { whatsappLink } from '../data/site';
+---
+
+<BaseLayout
+  title="Page Not Found | Bright House Cleaning Services"
+  description="The page you were looking for could not be found."
+  path="/404/"
+  noindex
+>
+  <SimplePage
+    eyebrow="Page not found"
+    title="This corner is spotless — but empty."
+    lede="The page you’re looking for may have moved or no longer exists. Let’s get you back to somewhere brighter."
+  >
+    <div class="nf__actions">
+      <a class="btn btn--primary" href="/">Back to Home</a>
+      <a class="btn btn--ghost" href="/#services">View Services</a>
+      <a class="btn btn--ghost" href={whatsappLink()} target="_blank" rel="noopener">
+        <Icon name="whatsapp" class="wa-icon" />
+        Message on WhatsApp
+      </a>
+    </div>
+  </SimplePage>
+</BaseLayout>
+
+<style>
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.25rem;
+  }
+  @media (max-width: 560px) {
+    .nf__actions .btn {
+      width: 100%;
+    }
+  }
+</style>

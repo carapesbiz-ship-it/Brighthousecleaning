@@ -1,0 +1,138 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { differentiators } from '../data/site';
+import { photos } from '../data/photos';
+
+const icons = ['user', 'eye', 'users', 'supplies', 'heart'];
+---
+
+<section class="section section--tint why" aria-labelledby="why-title">
+  <div class="container why__grid">
+    <div class="why__intro">
+      <p class="eyebrow">The Bright House difference</p>
+      <h2 id="why-title">Why Metro Vancouver clients choose <span class="em">Bright House</span></h2>
+      <p class="lede">
+        A small, owner-led business means the care you see on the first visit is the care you can count on after that.
+      </p>
+      <figure class="why__photo reveal">
+        <Picture
+          src={photos.sinkDetail.src}
+          alt={photos.sinkDetail.alt}
+          formats={['avif']}
+                fallbackFormat="webp"
+          widths={[400, 640, 780]}
+          sizes="(max-width: 900px) 92vw, 480px"
+          class="cover"
+          style={`object-position:${photos.sinkDetail.position}`}
+          loading="lazy"
+          quality={76}
+        />
+      </figure>
+    </div>
+
+    <ol class="why__list" role="list">
+      {
+        differentiators.map((d, i) => (
+          <li class="why__item reveal" style={`--reveal-delay:${i * 0.06}s`}>
+            <span class="why__num" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <div>
+              <h3>
+                <Icon name={icons[i]} size={22} />
+                {d.title}
+              </h3>
+              <p>{d.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .why__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+  .why__intro {
+    position: sticky;
+    top: calc(var(--header-h) + 2rem);
+  }
+  .why__intro .lede {
+    margin-top: 1.1rem;
+  }
+  .why__photo {
+    margin-top: 2.25rem;
+    aspect-ratio: 5 / 4;
+    border-radius: var(--radius-l);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    background: var(--cyan-soft);
+  }
+  .why__list {
+    margin: 0;
+    display: grid;
+  }
+  .why__item {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 1.25rem;
+    padding-block: 1.9rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .why__item:first-child {
+    padding-top: 0.5rem;
+  }
+  .why__item:last-child {
+    border-bottom: 0;
+  }
+  .why__num {
+    font-family: var(--font-display);
+    font-size: 3rem;
+    font-weight: 500;
+    font-style: italic;
+    line-height: 0.9;
+    color: var(--cyan);
+  }
+  .why__item h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: var(--step-2);
+    margin-bottom: 0.5rem;
+  }
+  .why__item h3 :global(svg) {
+    flex: none;
+    color: var(--cyan);
+  }
+  .why__item p {
+    color: var(--muted);
+    max-width: 32rem;
+  }
+
+  @media (max-width: 900px) {
+    .why__grid {
+      grid-template-columns: 1fr;
+    }
+    .why__intro {
+      position: static;
+    }
+    .why__photo {
+      aspect-ratio: 16 / 10;
+    }
+  }
+  @media (max-width: 520px) {
+    .why__item {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+    .why__num {
+      font-size: 2.2rem;
+    }
+  }
+</style>

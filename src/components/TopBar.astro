@@ -1,0 +1,84 @@
+---
+import { site } from '../data/site';
+---
+
+<div class="topbar on-dark">
+  <div class="container topbar__inner">
+    <p class="topbar__items">
+      {
+        site.trustBar.map((item, i) => (
+          <span class:list={['topbar__item', i === 1 && 'topbar__item--md', i === 2 && 'topbar__item--sm']}>
+            {i > 0 && (
+              <span class="topbar__sep" aria-hidden="true">
+                •
+              </span>
+            )}
+            {item}
+          </span>
+        ))
+      }
+    </p>
+    <a class="topbar__phone" href={site.phone.href}>
+      <span class="visually-hidden">Call </span>{site.phone.display}
+    </a>
+  </div>
+</div>
+
+<style>
+  .topbar {
+    background: var(--blue-ink);
+    color: rgb(255 255 255 / 0.9);
+    font-family: var(--font-accent);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  .topbar__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 38px;
+  }
+  .topbar__items {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.2rem 0.7rem;
+    justify-content: center;
+    padding-block: 0.45rem;
+  }
+  .topbar__item {
+    white-space: nowrap;
+  }
+  .topbar__sep {
+    color: var(--cyan);
+    margin-right: 0.7rem;
+  }
+  .topbar__phone {
+    color: var(--white);
+    text-decoration: none;
+    white-space: nowrap;
+    padding-block: 0.5rem;
+  }
+  .topbar__phone:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  @media (max-width: 720px) {
+    .topbar__inner {
+      justify-content: center;
+    }
+    .topbar__phone {
+      display: none;
+    }
+    .topbar__item--md {
+      display: none;
+    }
+  }
+  @media (max-width: 440px) {
+    .topbar__item--sm {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimplePage from '../components/SimplePage.astro';
+import Icon from '../components/Icon.astro';
+import { site, whatsappLink } from '../data/site';
+---
+
+<BaseLayout
+  title="Thank You | Bright House Cleaning Services"
+  description="Your quote request has been received. Cindy will be in touch soon."
+  path="/thank-you/"
+  noindex
+>
+  <SimplePage
+    eyebrow="Request received"
+    title="Thank you — your request is on its way to Cindy."
+    lede="We’ve received your details and will review your space, priorities, and timing before getting back to you with a personalized quote. Replies are usually sent during business hours, Monday to Saturday, 9:00 AM to 5:00 PM."
+  >
+    <div class="ty__actions">
+      <a class="btn btn--primary" href="/">
+        Return Home
+      </a>
+      <a class="btn btn--ghost" href={whatsappLink('Hi Cindy! I just sent a quote request through your website.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" class="wa-icon" />
+        Message Cindy on WhatsApp
+      </a>
+    </div>
+
+    <ol class="ty__next" role="list">
+      <li>
+        <span class="ty__num">1</span>
+        <p><strong>We review your request</strong> and may reach out with a quick question about your space.</p>
+      </li>
+      <li>
+        <span class="ty__num">2</span>
+        <p><strong>You receive your personalized quote</strong> by your preferred contact method.</p>
+      </li>
+      <li>
+        <span class="ty__num">3</span>
+        <p><strong>We confirm a time</strong> that works for you — and arrive with everything we need.</p>
+      </li>
+    </ol>
+
+    <p class="ty__contact">
+      Need to add something? Call <a href={site.phone.href}>{site.phone.display}</a> or email{' '}
+      <a href={`mailto:${site.email}`}>{site.email}</a>.
+    </p>
+  </SimplePage>
+</BaseLayout>
+
+<style>
+  .ty__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 2.25rem;
+  }
+  .ty__next {
+    display: grid;
+    gap: 1rem;
+    margin: 3rem 0 0;
+    padding: clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    border-radius: var(--radius-l);
+    background: var(--cyan-soft);
+    max-width: 40rem;
+  }
+  .ty__next li {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .ty__num {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--blue);
+    color: var(--white);
+    font-family: var(--font-accent);
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+  .ty__next strong {
+    color: var(--blue-ink);
+  }
+  .ty__contact {
+    margin-top: 2rem;
+    color: var(--muted);
+  }
+  .ty__contact a {
+    color: var(--blue);
+    font-weight: 600;
+    word-break: break-word;
+  }
+  @media (max-width: 560px) {
+    .ty__actions .btn {
+      width: 100%;
+    }
+  }
+</style>

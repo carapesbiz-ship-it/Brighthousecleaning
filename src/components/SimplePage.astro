@@ -1,0 +1,45 @@
+---
+/** Shared hero-style header for secondary pages (thank you, privacy, 404). */
+interface Props {
+  eyebrow: string;
+  title: string;
+  lede?: string;
+}
+const { eyebrow, title, lede } = Astro.props;
+---
+
+<section class="page-hero" data-wa-hide>
+  <div class="container page-hero__inner">
+    <svg class="page-hero__spark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 2c.6 5.3 2.7 7.4 8 8-5.3.6-7.4 2.7-8 8-.6-5.3-2.7-7.4-8-8 5.3-.6 7.4-2.7 8-8Z"></path>
+    </svg>
+    <p class="eyebrow">{eyebrow}</p>
+    <h1>{title}</h1>
+    {lede && <p class="lede">{lede}</p>}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    padding-block: clamp(4rem, 3rem + 5vw, 7.5rem);
+    background:
+      radial-gradient(60% 70% at 85% 0%, rgb(63 198 240 / 0.18), transparent 60%),
+      linear-gradient(180deg, var(--offwhite), var(--white));
+  }
+  .page-hero__inner {
+    position: relative;
+    max-width: 52rem;
+  }
+  .page-hero h1 {
+    max-width: 18ch;
+  }
+  .page-hero .lede {
+    margin-top: 1.25rem;
+  }
+  .page-hero__spark {
+    width: 40px;
+    fill: var(--cyan);
+    margin-bottom: 1.5rem;
+  }
+</style>

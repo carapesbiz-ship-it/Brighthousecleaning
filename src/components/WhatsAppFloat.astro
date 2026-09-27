@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import { whatsappLink } from '../data/site';
+---
+
+<a class="wa-float" href={whatsappLink()} target="_blank" rel="noopener" data-wa-float>
+  <Icon name="whatsapp" size={28} />
+  <span class="wa-float__label">Chat with Cindy</span>
+  <span class="visually-hidden"> on WhatsApp (opens in a new tab)</span>
+</a>
+
+<style>
+  .wa-float {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: max(1rem, env(safe-area-inset-bottom));
+    z-index: 90;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 56px;
+    padding: 0.7rem 1.2rem 0.7rem 0.9rem;
+    border-radius: 999px;
+    background: var(--whatsapp);
+    color: var(--white);
+    font-family: var(--font-accent);
+    font-size: 0.88rem;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 14px 30px -12px rgb(16 90 50 / 0.65);
+    transition:
+      transform 0.3s var(--ease),
+      opacity 0.3s var(--ease),
+      visibility 0.3s;
+  }
+  .wa-float:hover {
+    transform: translateY(-2px);
+    background: #188a49;
+  }
+  .wa-float.is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px);
+    pointer-events: none;
+  }
+  @media (max-width: 720px) {
+    .wa-float {
+      padding: 0;
+      width: 58px;
+      height: 58px;
+      justify-content: center;
+    }
+    .wa-float__label {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+    }
+  }
+</style>

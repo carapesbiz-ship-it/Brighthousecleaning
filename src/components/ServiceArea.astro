@@ -1,0 +1,116 @@
+---
+import Icon from './Icon.astro';
+import { serviceAreas, whatsappLink } from '../data/site';
+---
+
+<section class="section area" id="service-area" aria-labelledby="area-title">
+  <div class="container area__grid">
+    <div class="area__copy">
+      <p class="eyebrow">Service area</p>
+      <h2 id="area-title">Proudly serving <span class="em">Metro Vancouver</span></h2>
+      <p class="lede">
+        Bright House provides personalized residential, Airbnb, move-in/move-out, and commercial cleaning throughout
+        Metro Vancouver.
+      </p>
+      <p class="area__ask">
+        Not sure if we reach your neighbourhood?{' '}
+        <a href={whatsappLink('Hi Cindy! Do you provide cleaning in my area?')} target="_blank" rel="noopener">Just ask Cindy</a>.
+      </p>
+    </div>
+
+    <div class="area__card reveal">
+      <ul class="area__list" role="list">
+        {
+          serviceAreas.map((city) => (
+            <li>
+              <Icon name="pin" size={18} />
+              {city}
+            </li>
+          ))
+        }
+        <li class="area__more">
+          <Icon name="plus" size={18} />
+          Surrounding areas
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .area__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: center;
+  }
+  .area__copy .lede {
+    margin-top: 1.1rem;
+  }
+  .area__ask {
+    margin-top: 1.75rem;
+    color: var(--muted);
+  }
+  .area__ask a {
+    color: var(--blue);
+    font-weight: 600;
+    text-underline-offset: 4px;
+    text-decoration-color: var(--cyan);
+    text-decoration-thickness: 2px;
+  }
+  .area__card {
+    position: relative;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    border-radius: var(--radius-l);
+    background:
+      radial-gradient(circle at 100% 0%, rgb(63 198 240 / 0.18), transparent 45%),
+      var(--cyan-soft);
+    border: 1px solid rgb(63 198 240 / 0.2);
+  }
+  .area__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 0;
+  }
+  .area__list li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 52px;
+    padding: 0.7rem 1rem;
+    border-radius: 14px;
+    background: var(--white);
+    font-weight: 600;
+    color: var(--blue-ink);
+    box-shadow: var(--shadow-s);
+  }
+  .area__list :global(svg) {
+    flex: none;
+    color: var(--blue);
+  }
+  .area__list .area__more {
+    background: transparent;
+    box-shadow: none;
+    border: 1.5px dashed rgb(62 64 149 / 0.3);
+    color: var(--blue);
+  }
+  @media (max-width: 900px) {
+    .area__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .area__list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .area__list li {
+      min-height: 44px;
+      padding: 0.5rem 0.85rem;
+      font-size: 0.92rem;
+      gap: 0.4rem;
+    }
+  }
+</style>

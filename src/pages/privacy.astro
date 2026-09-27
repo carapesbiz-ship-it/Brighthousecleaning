@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SimplePage from '../components/SimplePage.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title="Privacy Policy | Bright House Cleaning Services"
+  description="How Bright House Cleaning Services collects, uses, and protects the information you share when requesting a cleaning quote."
+  path="/privacy/"
+>
+  <SimplePage
+    eyebrow="Privacy Policy"
+    title="Your information, handled with care."
+    lede="We respect your privacy. This page explains, in plain language, what information we collect and how we use it."
+  />
+
+  <article class="container prose">
+    <p class="prose__updated">Last updated: September 2026</p>
+
+    <h2>Who we are</h2>
+    <p>
+      {site.name} is a residential and commercial cleaning business serving Metro Vancouver, British Columbia. You can
+      reach us at <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={site.phone.href}>{site.phone.display}</a>.
+    </p>
+
+    <h2>What we collect</h2>
+    <p>When you request a quote through our website, we collect the information you choose to provide:</p>
+    <ul>
+      <li>Your name, email address, and phone number</li>
+      <li>Your preferred contact method</li>
+      <li>The service you’re interested in, property type, city, and number of bedrooms and bathrooms</li>
+      <li>Your preferred frequency and service date</li>
+      <li>Any message or special priorities you share with us</li>
+    </ul>
+    <p>
+      We do not ask for payment details, identification numbers, or other sensitive information through this website.
+      Please don’t include door codes, alarm codes, or similar details in the form.
+    </p>
+    <p>
+      If you contact us by phone, email, or WhatsApp, we receive the information you share in that conversation.
+    </p>
+
+    <h2>How we use it</h2>
+    <ul>
+      <li>To respond to your enquiry and prepare a personalized quote</li>
+      <li>To schedule and provide the cleaning services you request</li>
+      <li>To follow up about your service, including our 5-Star Promise</li>
+    </ul>
+    <p>We do not sell, rent, or trade your personal information, and we do not use it for unrelated marketing.</p>
+
+    <h2>How it’s stored</h2>
+    <p>
+      Quote requests submitted on this website are processed by our website hosting provider, Netlify, and delivered to
+      us by email. Messages you send by WhatsApp, email, or social media are handled by those services under their own
+      privacy policies. We keep your information only as long as needed to respond to you and provide our services, or
+      as required by law.
+    </p>
+
+    <h2>Cookies and analytics</h2>
+    <p>
+      This website does not use advertising cookies or tracking pixels. Links to Instagram, Facebook, and WhatsApp take
+      you to those platforms, which have their own privacy practices.
+    </p>
+
+    <h2>Your choices</h2>
+    <p>
+      You can ask us at any time what personal information we hold about you, ask us to correct it, or ask us to delete
+      it where we are not required to keep it. Just contact us at{' '}
+      <a href={`mailto:${site.email}`}>{site.email}</a>. We handle personal information in keeping with British
+      Columbia’s <em>Personal Information Protection Act</em>.
+    </p>
+
+    <h2>Changes to this policy</h2>
+    <p>If we update this policy, we’ll post the new version on this page with a revised date.</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .prose {
+    max-width: calc(46rem + var(--gutter) * 2);
+    padding-bottom: var(--section);
+  }
+  .prose__updated {
+    font-size: 0.88rem;
+    color: var(--muted);
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .prose h2 {
+    font-size: var(--step-2);
+    margin: 2.5rem 0 0.75rem;
+  }
+  .prose p,
+  .prose li {
+    color: #3d4356;
+  }
+  .prose p + p {
+    margin-top: 0.9rem;
+  }
+  .prose ul {
+    display: grid;
+    gap: 0.4rem;
+    margin: 0.9rem 0 1rem;
+    padding-left: 1.25rem;
+  }
+  .prose li::marker {
+    color: var(--cyan);
+  }
+  .prose a {
+    color: var(--blue);
+    font-weight: 600;
+    word-break: break-word;
+  }
+</style>
