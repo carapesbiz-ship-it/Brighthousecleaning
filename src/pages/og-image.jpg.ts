@@ -5,17 +5,19 @@ import path from 'node:path';
 /**
  * Social sharing image (1200×630), generated at build time: the official
  * white logo (scaled proportionally, never altered) on Bright House Blue,
- * beside a real Bright House photograph.
+ * beside a photo of Cindy at work (her logo shirt, cloth and cabinet in frame).
  */
 export const GET: APIRoute = async () => {
   const root = process.cwd();
-  const panelW = 520;
+  const panelW = 440;
 
-  const photo = await sharp(path.join(root, 'src/assets/photos/crops/08-kitchen-island.jpg'))
-    .resize(1200 - panelW, 630, { fit: 'cover', position: 'centre' })
+  // Scale to 630px tall (945px wide), then keep Cindy, the shirt logo and her hand with the cloth.
+  const photo = await sharp(path.join(root, 'src/assets/photos/cindy-kitchen-cabinets.webp'))
+    .resize({ height: 630 })
+    .extract({ left: 30, top: 0, width: 1200 - panelW, height: 630 })
     .toBuffer();
 
-  const logoW = 360;
+  const logoW = 320;
   const logo = await sharp(path.join(root, 'public/brand/bright-house-logo-white.svg'), { density: 600 })
     .resize({ width: logoW })
     .png()
