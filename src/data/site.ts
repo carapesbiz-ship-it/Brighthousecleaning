@@ -29,7 +29,7 @@ export const site = {
   social: {
     instagram: 'https://www.instagram.com/brighthousecs/',
     instagramHandle: '@brighthousecs',
-    facebook: 'https://www.facebook.com/share/1BpDXaVT74/?mibextid=wwXIfr',
+    facebook: 'https://www.facebook.com/profile.php?id=61557052281960',
   },
 
   hours: {

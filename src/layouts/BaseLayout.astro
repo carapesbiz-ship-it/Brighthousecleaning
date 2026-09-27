@@ -13,7 +13,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { site } from '../data/site';
-import { isIndexable } from '../data/indexing.mjs';
+import { isIndexable, socialOrigin } from '../data/indexing.mjs';
 
 // Above-the-fold fonts are preloaded to avoid layout shift when they swap in.
 import fontDisplay from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2?url';
@@ -28,13 +28,18 @@ interface Props {
   /** Path used for the canonical URL, e.g. "/privacy/" */
   path?: string;
   noindex?: boolean;
+  /** Omit the canonical link (e.g. on the 404 page, which has no real URL) */
+  noCanonical?: boolean;
   schema?: Record<string, unknown>[];
 }
 
-const { title = site.seo.title, description = site.seo.description, path = Astro.url.pathname, noindex = false, schema = [] } = Astro.props;
+const { title = site.seo.title, description = site.seo.description, path = Astro.url.pathname, noindex = false, noCanonical = false, schema = [] } = Astro.props;
 
+// Canonical always points at the final domain; social cards use the URL being shared.
 const canonical = new URL(path, site.url).href;
-const ogImage = new URL('/og-image.jpg', site.url).href;
+const shareOrigin = socialOrigin();
+const ogUrl = new URL(path, shareOrigin).href;
+const ogImage = new URL('/og-image.jpg', shareOrigin).href;
 ---
 
 <!doctype html>
@@ -44,7 +49,7 @@ const ogImage = new URL('/og-image.jpg', site.url).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!noCanonical && <link rel="canonical" href={canonical} />}
     {
       !isIndexable() ? (
         <meta name="robots" content="noindex, nofollow" />
@@ -64,7 +69,7 @@ const ogImage = new URL('/og-image.jpg', site.url).href;
     <meta property="og:locale" content={site.locale} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    <meta property="og:url" content={ogUrl} />
     <meta property="og:image" content={ogImage} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />

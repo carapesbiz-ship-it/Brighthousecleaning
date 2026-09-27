@@ -14,3 +14,24 @@ export function isIndexable(env = process.env) {
   const url = (env.URL || '').replace(/\/+$/, '');
   return env.CONTEXT === 'production' && LIVE_ORIGINS.includes(url);
 }
+
+const FINAL_ORIGIN = 'https://brighthousecleaning.ca';
+const clean = (u) => (u || '').trim().replace(/\/+$/, '');
+
+/**
+ * Origin used for social-sharing metadata (og:url, og:image, twitter:image),
+ * so link previews work on whatever URL is actually being shared.
+ *
+ * - Production: Netlify's primary URL (`URL`). Once brighthousecleaning.ca is
+ *   the primary domain, this becomes the final domain automatically.
+ * - Deploy Previews / branch deploys: that deploy's own URL
+ *   (`DEPLOY_PRIME_URL`), then `URL`.
+ * - Local builds: the final domain.
+ *
+ * Canonical URLs, the sitemap and structured data always use the final domain.
+ */
+export function socialOrigin(env = process.env) {
+  const candidates =
+    env.CONTEXT === 'production' ? [env.URL, env.DEPLOY_PRIME_URL] : [env.DEPLOY_PRIME_URL, env.URL];
+  return clean(candidates.find((u) => clean(u).startsWith('https://'))) || FINAL_ORIGIN;
+}
