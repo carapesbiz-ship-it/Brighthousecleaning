@@ -68,15 +68,6 @@ export const photos = {
 
 export type PhotoKey = keyof typeof photos;
 
-/** Hero rotation (first image loads eagerly). */
-export const heroSlides: PhotoKey[] = ['kitchenIsland', 'showerTub', 'emptyRoom'];
-
-/**
- * Optional short, muted hero video. Place the file in /public/media and set
- * e.g. { src: '/media/hero.mp4', poster: 'kitchenIsland' } to replace the slideshow.
- */
-export const heroVideo: { src: string; poster: PhotoKey } | null = null;
-
 /**
  * Optional portrait of Cindy for the "Meet Cindy" section. Only add a
  * confirmed photograph of Cindy, used with her permission. Import it above

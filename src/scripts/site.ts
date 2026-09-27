@@ -86,93 +86,6 @@ function initReveal() {
   els.forEach((el) => io.observe(el));
 }
 
-/* ------------------------------------------------------------ Hero slideshow */
-function initSlideshow() {
-  const root = $('[data-slideshow]');
-  if (!root) return;
-  const slides = $$('[data-slide]', root);
-  const dots = $$<HTMLButtonElement>('[data-slide-dot]', root);
-  const pauseBtn = $<HTMLButtonElement>('[data-slide-pause]', root);
-  if (slides.length < 2) return;
-
-  const desktop = window.matchMedia('(min-width: 768px)');
-  let index = 0;
-  let timer: number | undefined;
-  let userPaused = reducedMotion.matches;
-  let hoverPaused = false;
-
-  const show = (i: number) => {
-    index = (i + slides.length) % slides.length;
-    slides.forEach((s, n) => {
-      s.classList.toggle('is-active', n === index);
-      if (n === index) s.removeAttribute('aria-hidden');
-      else s.setAttribute('aria-hidden', 'true');
-      // Load lazy slides just before they appear
-      const img = $<HTMLImageElement>('img', s);
-      if (img && n === (index + 1) % slides.length) img.loading = 'eager';
-    });
-    dots.forEach((d, n) => (n === index ? d.setAttribute('aria-current', 'true') : d.removeAttribute('aria-current')));
-  };
-
-  const stop = () => {
-    window.clearInterval(timer);
-    timer = undefined;
-  };
-  const start = () => {
-    stop();
-    if (userPaused || hoverPaused || !desktop.matches || document.hidden) return;
-    timer = window.setInterval(() => show(index + 1), 5000);
-  };
-  const syncPauseBtn = () => {
-    if (!pauseBtn) return;
-    pauseBtn.classList.toggle('is-paused', userPaused);
-    pauseBtn.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
-  };
-
-  dots.forEach((d) =>
-    d.addEventListener('click', () => {
-      show(Number(d.dataset.slideDot));
-      start();
-    }),
-  );
-  pauseBtn?.addEventListener('click', () => {
-    userPaused = !userPaused;
-    syncPauseBtn();
-    start();
-  });
-  root.addEventListener('mouseenter', () => {
-    hoverPaused = true;
-    stop();
-  });
-  root.addEventListener('mouseleave', () => {
-    hoverPaused = false;
-    start();
-  });
-  root.addEventListener('focusin', () => {
-    hoverPaused = true;
-    stop();
-  });
-  root.addEventListener('focusout', (e) => {
-    if (!root.contains(e.relatedTarget as Node)) {
-      hoverPaused = false;
-      start();
-    }
-  });
-  document.addEventListener('visibilitychange', start);
-  desktop.addEventListener('change', () => {
-    if (!desktop.matches) show(0);
-    start();
-  });
-  reducedMotion.addEventListener('change', () => {
-    userPaused = reducedMotion.matches;
-    syncPauseBtn();
-    start();
-  });
-
-  syncPauseBtn();
-  start();
-}
-
 /* ---------------------------------------------------------------- FAQ */
 function initAccordion() {
   $$<HTMLButtonElement>('[data-accordion-btn]').forEach((btn) => {
@@ -451,7 +364,6 @@ function initActiveNav() {
 initHeader();
 initMenu();
 initReveal();
-initSlideshow();
 initAccordion();
 initLightbox();
 initServiceLinks();
