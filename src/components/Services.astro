@@ -439,6 +439,45 @@ const cropFor: Partial<Record<Service['id'], string>> = {
       grid-template-columns: 1fr;
     }
   }
+  /* Compact add-ons on small screens: one wrapping line with dot separators. */
+  @media (max-width: 767px) {
+    .svc__extras {
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+    }
+    .svc__extras .svc__label {
+      margin-bottom: 0.45rem;
+    }
+    .checklist--plus {
+      display: block;
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+    /* Each add-on moves to the next line as a unit; it only wraps internally if it cannot fit a line on its own. */
+    .checklist--plus li {
+      display: inline-block;
+      max-width: 100%;
+    }
+    .checklist--plus li:not(:last-child)::after {
+      content: '';
+      display: inline-block;
+      width: 4px;
+      height: 4px;
+      margin-inline: 0.55rem;
+      border-radius: 50%;
+      background: var(--cyan);
+      vertical-align: middle;
+    }
+    .checklist--plus :global(svg) {
+      display: none;
+    }
+    .svc__extras .svc__note--box {
+      margin-top: 0.8rem;
+      padding: 0.65rem 0.8rem;
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+  }
   @media (max-width: 460px) {
     .checklist--cols {
       grid-template-columns: 1fr;

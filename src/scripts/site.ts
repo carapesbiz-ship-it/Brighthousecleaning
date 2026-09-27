@@ -267,6 +267,8 @@ function initServiceLinks() {
 function initForm() {
   const form = $<HTMLFormElement>('[data-quote-form]');
   if (!form) return;
+  // Custom inline validation replaces the browser's; without JS the native checks still apply.
+  form.noValidate = true;
   const summary = $('[data-error-summary]', form)!;
   const list = $('[data-error-list]', form)!;
   let attempted = false;
@@ -327,27 +329,66 @@ function initForm() {
     });
   });
 
+  const renderSummary = (errors: { el: Field; message: string }[]) => {
+    list.innerHTML = '';
+    errors.forEach(({ el, message }) => {
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = `#${el.id}`;
+      a.textContent = `${el.dataset.label}: ${message}`;
+      a.addEventListener('click', (ev) => {
+        ev.preventDefault();
+        el.focus();
+      });
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    summary.hidden = errors.length === 0;
+  };
+  const currentErrors = () => fields.map((el) => ({ el, message: validate(el) })).filter((x) => x.message);
+
+  /* Preferred contact method decides whether phone or email is required.
+     Without JavaScript the markup defaults to phone required, email optional. */
+  const email = $<HTMLInputElement>('#f-email', form);
+  const phone = $<HTMLInputElement>('#f-phone', form);
+  const methods = $$<HTMLInputElement>('[data-contact-method]', form);
+  const hint = $('[data-method-hint]', form);
+  const hints: Record<string, string> = {
+    WhatsApp: 'We’ll reply by WhatsApp, so your phone number is required.',
+    Phone: 'We’ll reply by phone, so your phone number is required.',
+    Email: 'We’ll reply by email, so your email address is required.',
+  };
+
+  const setRequired = (el: HTMLInputElement, key: string, required: boolean) => {
+    el.required = required;
+    el.setAttribute('aria-required', String(required));
+    const req = $(`[data-req-for="${key}"]`, form);
+    const opt = $(`[data-opt-for="${key}"]`, form);
+    if (req) req.hidden = !required;
+    if (opt) opt.hidden = required;
+    // Re-check: clears an obsolete "required" error, keeps a real format error.
+    if (attempted || el.getAttribute('aria-invalid') === 'true') show(el, validate(el));
+  };
+
+  const applyMethod = () => {
+    const method = methods.find((m) => m.checked)?.value ?? 'WhatsApp';
+    const emailRequired = method === 'Email';
+    if (email) setRequired(email, 'email', emailRequired);
+    if (phone) setRequired(phone, 'phone', !emailRequired);
+    if (hint) hint.textContent = hints[method] ?? hints.WhatsApp;
+    if (!summary.hidden) renderSummary(currentErrors());
+  };
+  methods.forEach((m) => m.addEventListener('change', applyMethod));
+  applyMethod();
+
   form.addEventListener('submit', (e) => {
     attempted = true;
-    const errors = fields.map((el) => ({ el, message: validate(el) })).filter((x) => x.message);
+    const errors = currentErrors();
     fields.forEach((el) => show(el, validate(el)));
 
     if (errors.length) {
       e.preventDefault();
-      list.innerHTML = '';
-      errors.forEach(({ el, message }) => {
-        const li = document.createElement('li');
-        const a = document.createElement('a');
-        a.href = `#${el.id}`;
-        a.textContent = `${el.dataset.label}: ${message}`;
-        a.addEventListener('click', (ev) => {
-          ev.preventDefault();
-          el.focus();
-        });
-        li.appendChild(a);
-        list.appendChild(li);
-      });
-      summary.hidden = false;
+      renderSummary(errors);
       errors[0].el.focus();
       return;
     }
