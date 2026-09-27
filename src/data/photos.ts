@@ -20,6 +20,7 @@ import deepService from '../assets/services/deep-cleaning.png';
 import moveService from '../assets/services/move-in-move-out.png';
 import commercialService from '../assets/services/commercial-cleaning.png';
 import airbnbService from '../assets/services/airbnb-turnover.png';
+import cindy from '../assets/photos/cindy-bright-house-shirt-v2.webp';
 
 export interface Photo {
   src: ImageMetadata;
@@ -74,11 +75,14 @@ export const photos = {
 export type PhotoKey = keyof typeof photos;
 
 /**
- * Optional portrait of Cindy for the "Meet Cindy" section. Only add a
- * confirmed photograph of Cindy, used with her permission. Import it above
- * and set it here, e.g. { src: cindyPortrait, alt: 'Cindy Albornoz…' }.
+ * Cindy's portrait for the "Meet Cindy" section (3:4, confirmed photo of Cindy).
+ * Not part of the "Real Work" gallery.
  */
-export const cindyPortrait: Photo | null = null;
+export const cindyPortrait: Photo | null = {
+  src: cindy,
+  alt: 'Cindy Albornoz, founder of Bright House Cleaning Services',
+  position: '50% 0%',
+};
 
 /**
  * Curated gallery, in display order. Every entry is a different photograph.
