@@ -3,12 +3,14 @@ import { defineConfig } from 'astro/config';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { isIndexable } from './src/data/indexing.mjs';
 
 /**
  * Astro copies the original source photographs into dist/_astro even when
  * pages only use the optimized AVIF/WebP versions. This removes any image in
  * dist/_astro that no built file references, so full-size originals are not
- * published.
+ * published. It also marks non-production builds as noindex (see
+ * src/data/indexing.mjs).
  * @returns {import('astro').AstroIntegration}
  */
 function pruneUnreferencedImages() {
@@ -40,6 +42,14 @@ function pruneUnreferencedImages() {
           }
         }
         logger.info(`Removed ${removed} unreferenced original image(s) from _astro`);
+
+        // Preview / staging builds also send an X-Robots-Tag header on every URL.
+        if (!isIndexable()) {
+          fs.writeFileSync(path.join(out, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
+          logger.info('Non-production build: noindex header, meta and robots.txt applied');
+        } else {
+          logger.info('Production build on the official domain: indexing enabled');
+        }
       },
     },
   };

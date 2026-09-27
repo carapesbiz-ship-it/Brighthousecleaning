@@ -13,6 +13,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsAppFloat from '../components/WhatsAppFloat.astro';
 import { site } from '../data/site';
+import { isIndexable } from '../data/indexing.mjs';
 
 // Above-the-fold fonts are preloaded to avoid layout shift when they swap in.
 import fontDisplay from '@fontsource/cormorant-garamond/files/cormorant-garamond-latin-600-normal.woff2?url';
@@ -44,7 +45,13 @@ const ogImage = new URL('/og-image.jpg', site.url).href;
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {noindex && <meta name="robots" content="noindex, follow" />}
+    {
+      !isIndexable() ? (
+        <meta name="robots" content="noindex, nofollow" />
+      ) : (
+        noindex && <meta name="robots" content="noindex, follow" />
+      )
+    }
     <meta name="theme-color" content="#3E4095" />
     {preloadFonts.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
     <meta name="format-detection" content="telephone=no" />
