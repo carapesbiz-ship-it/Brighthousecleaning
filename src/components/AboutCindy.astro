@@ -216,4 +216,13 @@ const image = cindyPortrait ?? { ...photos.soakingTub, position: "44% 60%" };
       font-size: 2.8rem;
     }
   }
+  /* Narrowest phones: the quote wraps taller, so sit it lower to keep the shirt logo clear. */
+  @media (max-width: 360px) {
+    .about__visual {
+      padding-bottom: 5rem;
+    }
+    .about__ring {
+      bottom: 4.75rem;
+    }
+  }
 </style>

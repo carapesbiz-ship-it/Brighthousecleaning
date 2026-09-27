@@ -20,7 +20,7 @@ import deepService from '../assets/services/deep-cleaning.png';
 import moveService from '../assets/services/move-in-move-out.png';
 import commercialService from '../assets/services/commercial-cleaning.png';
 import airbnbService from '../assets/services/airbnb-turnover.png';
-import cindy from '../assets/photos/cindy-bright-house-shirt-v2.webp';
+import cindy from '../assets/photos/cindy-bright-house-cap.webp';
 
 export interface Photo {
   src: ImageMetadata;
