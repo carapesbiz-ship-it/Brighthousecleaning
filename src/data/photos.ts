@@ -15,6 +15,10 @@ import stairs from '../assets/photos/07-1000201882.jpg';
 import kitchenIsland from '../assets/photos/crops/08-kitchen-island.jpg';
 import office from '../assets/photos/09-1000201880.jpg';
 import emptyRoom from '../assets/photos/10-1000201879.jpg';
+import officeLobby from '../assets/photos/11-office-lobby.jpg';
+import baseboard from '../assets/photos/12-baseboard.jpg';
+import openOffice from '../assets/photos/13-open-office.jpg';
+import condoLiving from '../assets/photos/14-condo-living.jpg';
 import regularService from '../assets/services/regular-cleaning.png';
 import deepService from '../assets/services/deep-cleaning.png';
 import moveService from '../assets/services/move-in-move-out.png';
@@ -71,6 +75,26 @@ export const photos = {
     alt: 'A tidy covered patio with a dining table and cushioned chairs beside large windows',
     position: '68% 62%',
   },
+  officeLobby: {
+    src: officeLobby,
+    alt: 'A tidy office reception corner with grey armchairs, a tall plant and clean wood-look floors',
+    position: '50% 50%',
+  },
+  baseboard: {
+    src: baseboard,
+    alt: 'A clean white cabinet kickboard above warm wood-look flooring',
+    position: '50% 45%',
+  },
+  openOffice: {
+    src: openOffice,
+    alt: 'A tidy open office with white desks, black chairs and clean wood-look floors',
+    position: '50% 45%',
+  },
+  condoLiving: {
+    src: condoLiving,
+    alt: 'A bright condo living and dining area with a leather sofa, a round wood table and city views',
+    position: '50% 60%',
+  },
 } satisfies Record<string, Photo>;
 
 export type PhotoKey = keyof typeof photos;
@@ -97,6 +121,10 @@ export const gallery: { key: PhotoKey; caption: string }[] = [
   { key: 'glassShower', caption: 'Showers, top to bottom' },
   { key: 'stairs', caption: 'Floors and stairways' },
   { key: 'patio', caption: 'Finishing touches, inside and out' },
+  { key: 'officeLobby', caption: 'Reception areas, ready for visitors' },
+  { key: 'condoLiving', caption: 'Condo living, refreshed' },
+  { key: 'openOffice', caption: 'Open offices, floor to desk' },
+  { key: 'baseboard', caption: 'Baseboards and kickboards' },
 ];
 
 /**
