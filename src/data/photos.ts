@@ -21,6 +21,7 @@ import moveService from '../assets/services/move-in-move-out.png';
 import commercialService from '../assets/services/commercial-cleaning.png';
 import airbnbService from '../assets/services/airbnb-turnover.png';
 import cindy from '../assets/photos/cindy-bright-house-cap.webp';
+import cindyCabinets from '../assets/photos/cindy-kitchen-cabinets.webp';
 
 export interface Photo {
   src: ImageMetadata;
@@ -111,4 +112,14 @@ export const servicePhotos: Record<'regular' | 'deep' | 'move' | 'commercial' | 
   move: { src: moveService, alt: 'Bright House cleaner vacuuming an empty condo', position: '50% 30%' },
   commercial: { src: commercialService, alt: 'Bright House cleaner sanitizing an office meeting room', position: '50% 32%' },
   airbnb: { src: airbnbService, alt: 'Bright House cleaner preparing a guest bedroom', position: '50% 22%' },
+};
+
+/**
+ * "Why Metro Vancouver clients choose Bright House" section photo (3:2).
+ * Not part of the "Real Work" gallery.
+ */
+export const whyPhoto: Photo = {
+  src: cindyCabinets,
+  alt: 'Cindy providing detailed care to kitchen cabinetry',
+  position: '50% 45%',
 };

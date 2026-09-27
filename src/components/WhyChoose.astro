@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets';
 import Icon from './Icon.astro';
 import { differentiators } from '../data/site';
-import { photos } from '../data/photos';
+import { whyPhoto } from '../data/photos';
 
 const icons = ['user', 'eye', 'users', 'supplies', 'heart'];
 ---
@@ -17,14 +17,14 @@ const icons = ['user', 'eye', 'users', 'supplies', 'heart'];
       </p>
       <figure class="why__photo reveal">
         <Picture
-          src={photos.stairs.src}
-          alt={photos.stairs.alt}
+          src={whyPhoto.src}
+          alt={whyPhoto.alt}
           formats={['avif']}
-                fallbackFormat="webp"
-          widths={[400, 640, 780]}
+          fallbackFormat="webp"
+          widths={[400, 640, 960, 1280]}
           sizes="(max-width: 900px) 92vw, 480px"
           class="cover"
-          style={`object-position:${photos.stairs.position}`}
+          style={`object-position:${whyPhoto.position}`}
           loading="lazy"
           quality={76}
         />
@@ -68,7 +68,7 @@ const icons = ['user', 'eye', 'users', 'supplies', 'heart'];
   }
   .why__photo {
     margin-top: 2.25rem;
-    aspect-ratio: 5 / 4;
+    aspect-ratio: 3 / 2;
     border-radius: var(--radius-l);
     overflow: hidden;
     box-shadow: var(--shadow);
@@ -121,9 +121,6 @@ const icons = ['user', 'eye', 'users', 'supplies', 'heart'];
     }
     .why__intro {
       position: static;
-    }
-    .why__photo {
-      aspect-ratio: 16 / 10;
     }
   }
   @media (max-width: 520px) {
