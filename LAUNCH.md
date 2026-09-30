@@ -67,7 +67,7 @@ Los cambios que pida se hacen en la misma rama; Netlify vuelve a publicar la vis
 1. **Rama de producción:** crea `main` a partir del commit aprobado (este es el "merge") y en **Project configuration → Build & deploy → Branches and deploy contexts** cambia la rama de producción a `main`.
 2. **Dominio:** **Domain management → Add a domain** → `brighthousecleaning.ca`. Sigue las instrucciones que muestra Netlify: o cambiar los *nameservers* a Netlify DNS, o crear en el registrador los registros que Netlify indique (normalmente un registro `A` para el dominio raíz y un `CNAME` para `www`). Usa exactamente los valores que aparezcan en Netlify.
 3. Marca `brighthousecleaning.ca` como **Primary domain** y espera el certificado HTTPS automático.
-4. **Importante:** haz un deploy nuevo de producción (**Deploys → Trigger deploy**). La protección contra indexación se evalúa al construir; solo un build hecho con el dominio oficial como principal activa la indexación.
+4. **Importante:** haz un deploy nuevo de producción (**Deploys → Trigger deploy**). La protección contra indexación se evalúa al construir; solo un build hecho con el dominio oficial como principal activa la indexación. Funciona aunque el certificado HTTPS todavía se esté emitiendo: el sitio acepta que Netlify reporte el dominio como `http://` y siempre usa `https://` en los enlaces para compartir.
 5. Verifica:
    - `https://brighthousecleaning.ca/robots.txt` muestra `Allow: /` y la línea `Sitemap:`.
    - El código fuente de la página principal ya **no** tiene `noindex`.

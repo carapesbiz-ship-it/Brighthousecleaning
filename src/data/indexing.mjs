@@ -10,9 +10,12 @@
  */
 export const LIVE_ORIGINS = ['https://brighthousecleaning.ca', 'https://www.brighthousecleaning.ca'];
 
+// Netlify can report the primary URL as http:// while the HTTPS certificate is
+// still being issued; the official domain is always served over HTTPS.
+const toHttps = (u) => (u || '').trim().replace(/\/+$/, '').replace(/^http:\/\//, 'https://');
+
 export function isIndexable(env = process.env) {
-  const url = (env.URL || '').replace(/\/+$/, '');
-  return env.CONTEXT === 'production' && LIVE_ORIGINS.includes(url);
+  return env.CONTEXT === 'production' && LIVE_ORIGINS.includes(toHttps(env.URL));
 }
 
 const FINAL_ORIGIN = 'https://brighthousecleaning.ca';
@@ -33,5 +36,6 @@ const clean = (u) => (u || '').trim().replace(/\/+$/, '');
 export function socialOrigin(env = process.env) {
   const candidates =
     env.CONTEXT === 'production' ? [env.URL, env.DEPLOY_PRIME_URL] : [env.DEPLOY_PRIME_URL, env.URL];
-  return clean(candidates.find((u) => clean(u).startsWith('https://'))) || FINAL_ORIGIN;
+  const upgraded = candidates.map((u) => (LIVE_ORIGINS.includes(toHttps(u)) ? toHttps(u) : clean(u)));
+  return upgraded.find((u) => u.startsWith('https://')) || FINAL_ORIGIN;
 }
