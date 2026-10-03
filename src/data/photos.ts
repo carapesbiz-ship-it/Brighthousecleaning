@@ -26,7 +26,7 @@ import moveService from '../assets/services/move-in-move-out.png';
 import commercialService from '../assets/services/commercial-cleaning.png';
 import airbnbService from '../assets/services/airbnb-turnover.png';
 import cindy from '../assets/photos/cindy-bright-house-cap.webp';
-import cindyCabinets from '../assets/photos/cindy-kitchen-cabinets.webp';
+import cindyLivingRoom from '../assets/photos/cindy-living-room-finishing-touches.webp';
 
 export interface Photo {
   src: ImageMetadata;
@@ -154,7 +154,7 @@ export const servicePhotos: Record<'regular' | 'deep' | 'move' | 'commercial' | 
  * Not part of the "Real Work" gallery.
  */
 export const whyPhoto: Photo = {
-  src: cindyCabinets,
-  alt: 'Cindy providing detailed care to kitchen cabinetry',
-  position: '50% 45%',
+  src: cindyLivingRoom,
+  alt: 'Cindy arranging cushions in a freshly cleaned living room.',
+  position: '55% 35%',
 };
